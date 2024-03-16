@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AllPlaces from './screens/AllPlaces';
 import AddPlaces from './screens/AddPlaces';
+import Map from './screens/Map';
 import IconButton from './components/UI/IconButton';
 import { Colors } from './constants/colors';
 const Stack = createNativeStackNavigator();
@@ -39,6 +40,13 @@ export default function App() {
             options={{
               title: 'Add A New Place',
               headerBackTitle: 'Back' //if not set and there is space the previous screen will show as headerBackTitle
+            }}
+          />
+          <Stack.Screen
+            name='Map'
+            component={Map}
+            options={{
+              title: 'Map'
             }}
           />
         </Stack.Navigator>

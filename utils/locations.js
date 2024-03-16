@@ -1,5 +1,6 @@
-import {REACT_APP_GOOGLE_MAP_API_KEY,SIGNATURE } from 'react-native-dotenv';
+import { REACT_APP_GOOGLE_MAP_API_KEY, SIGNATURE } from 'react-native-dotenv';
 // https://developers.google.com/maps/documentation/maps-static/overview
+// https://console.cloud.google.com/google/maps-apis/home?project=fav-spots-maps
 
 /*
 original
@@ -10,8 +11,8 @@ https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,N
 
 ADD SIGNATURE LATER FOR EXTRA SECURITY
 */
-export function getMapPreview(lat,lng){
-const imageMapPreview =`https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=14&size=400x200&maptype=roadmap
-&markers=color:red%7Clabel:S%7C${lat},${lng}&key=${REACT_APP_GOOGLE_MAP_API_KEY}`
-return imageMapPreview
+export function getMapPreview(lat, lng) {
+  const imageMapPreview = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=14&size=400x200&maptype=roadmap
+&markers=color:red%7Clabel:S%7C${lat},${lng}&key=${REACT_APP_GOOGLE_MAP_API_KEY}`;
+  return imageMapPreview;
 }

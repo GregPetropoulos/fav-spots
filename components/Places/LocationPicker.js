@@ -1,3 +1,5 @@
+// https://developers.google.com/maps/documentation/maps-static/overview
+// https://console.cloud.google.com/google/maps-apis/home?project=fav-spots-maps
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, Alert, Image } from 'react-native';
 import OutlineButton from '../UI/OutlineButton';
@@ -7,9 +9,11 @@ import {
   useForegroundPermissions,
   PermissionStatus
 } from 'expo-location';
+import { useNavigation } from '@react-navigation/native';
 import { getMapPreview } from '../../utils/locations';
 
 const LocationPicker = () => {
+  const navigation = useNavigation();
   const [pickedLocation, setPickedLocation] = useState();
 
   const [locationPermissionInformation, requestPermission] =
@@ -46,7 +50,9 @@ const LocationPicker = () => {
     });
   };
 
-  const pickOnMapHandler = () => {};
+  const pickOnMapHandler = () => {
+    navigation.navigate('Map');
+  };
   let locationPreview = <Text>No Location Picked yet</Text>;
 
   if (pickedLocation) {

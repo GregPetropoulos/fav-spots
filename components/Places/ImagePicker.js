@@ -71,5 +71,5 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary100,
     borderRadius: 4
   },
-  image: { width: '100%', height: '100%' }
+  image: { width: '100%', height: '100%', borderRadius: 4 }
 });

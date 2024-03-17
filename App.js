@@ -9,6 +9,7 @@ import IconButton from './components/UI/IconButton';
 import { Colors } from './constants/colors';
 import { init } from './utils/database';
 import * as SplashScreen from 'expo-splash-screen';
+import PlaceDetails from './screens/PlaceDetails';
 
 // Keep the splash screen visible while we fetch resources
 // SplashScreen.preventAutoHideAsync();
@@ -80,6 +81,7 @@ export default function App() {
               title: 'Map'
             }}
           />
+          <Stack.Screen name='PlaceDetails' component={PlaceDetails}/>
         </Stack.Navigator>
       </NavigationContainer>
     </>

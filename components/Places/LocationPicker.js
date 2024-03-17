@@ -18,6 +18,7 @@ import {
   useIsFocused
 } from '@react-navigation/native';
 import { getMapPreview } from '../../utils/locations';
+import { getAddress } from '../../utils/locations';
 
 const LocationPicker = ({ onPickLocation }) => {
   const [pickedLocation, setPickedLocation] = useState();
@@ -72,9 +73,16 @@ const LocationPicker = ({ onPickLocation }) => {
 
   // side effect handling the parent getting the updates from the lifted state
   useEffect(() => {
-    if (pickedLocation) {
-      onPickLocation(pickedLocation);
-    }
+    const handleLocation = async () => {
+      if (pickedLocation) {
+        const addressResponse = await getAddress(
+          pickedLocation.lat,
+          pickedLocation.lng
+        );
+        onPickLocation({ ...pickedLocation, address: addressResponse });
+      }
+    };
+    handleLocation();
   }, [pickedLocation, onPickLocation]);
 
   const getLocationHandler = async () => {

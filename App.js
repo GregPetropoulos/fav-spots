@@ -17,7 +17,6 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [dbInitialized, setDbInitialized] = useState(false);
   // This is the db initializing for the first time
-  // code from Expo using SplashScreen:
   useEffect(() => {
     const prepare = async () => {
       try {

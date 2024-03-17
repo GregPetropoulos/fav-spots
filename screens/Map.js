@@ -35,7 +35,7 @@ const Map = ({ navigation }) => {
       );
       return;
     }
-    navigation.navigate('AllPlaces', {
+    navigation.navigate('AddPlaces', {
       pickedLat: selectedLocation.lat,
       pickedLng: selectedLocation.lng
     });

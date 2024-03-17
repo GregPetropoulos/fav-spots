@@ -57,7 +57,6 @@ const Map = ({ navigation }) => {
         />
       )
     });
-    // savePickedLocationHandler();
   }, [navigation, savePickedLocationHandler]);
 
   return (

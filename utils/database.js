@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 // MAKING A CUSTOM DB FOR THE DEVICE
-
+import { Place } from '../models/place';
 const database = SQLite.openDatabase('places.db');
 
 // Sets up the initial base structure a (table) with a query, and only executes once
@@ -50,7 +50,7 @@ export const insertPlace = (place) => {
           place.location.lng
         ],
         (_, result) => {
-          console.log(result);
+          //   console.log(result);
           resolve(result);
         },
         (_, error) => {
@@ -59,5 +59,39 @@ export const insertPlace = (place) => {
       );
     });
   });
-  return promise
+  return promise;
+};
+
+export const fetchPlaces = () => {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM places',
+        [],
+        (_, result) => {
+        //   console.log(JSON.stringify(result, null, 2))
+          const places = [];
+          for (dp of result.rows._array) {
+            places.push(
+              new Place(
+                dp.title,
+                dp.imageUri,
+                {
+                  address: dp.address,
+                  lat: dp.lat,
+                  lng: dp.lng
+                },
+                dp.id
+              )
+            )
+          }
+          resolve(places);
+        },
+        (_, error) => {
+          reject(error);
+        }
+      );
+    });
+  });
+  return promise;
 };

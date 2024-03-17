@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { TextInput, View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Colors } from '../../constants/colors';
 import ImagePicker from './ImagePicker';
@@ -7,12 +7,26 @@ import Button from '../UI/Button';
 
 function PlaceForm() {
   const [enteredTitle, setEnteredTitle] = useState('');
+  const [selectedImage, setSelectedImage] = useState();
+  const [pickedLocation, setPickedLocation] = useState();
+
   const changeTitleHandler = (enteredText) => {
     setEnteredTitle(enteredText);
   };
-const savePlaceHandler =()=> {
-  console.log('ONSUBMIUT')
-}
+  const onTakeImageHandler = (imageUri) => {
+    setSelectedImage(imageUri);
+  };
+
+  /*Because this is a dependency in the useEffect in LocationPicker.js 
+  it needs to be wrapped in a useCallback to prevent unnecessary recreations
+*/
+  const onPickLocationHandler = useCallback((location) => {
+    setPickedLocation(location);
+  }, []);
+
+  const savePlaceHandler = () => {
+
+  };
   return (
     <ScrollView style={styles.form}>
       <View>
@@ -23,9 +37,9 @@ const savePlaceHandler =()=> {
           onChangeText={changeTitleHandler}
         />
       </View>
-      <ImagePicker />
-      <LocationPicker/>
-<Button onPress={savePlaceHandler}>Add Place</Button>
+      <ImagePicker onTakeImage={onTakeImageHandler} />
+      <LocationPicker onPickLocation={onPickLocationHandler} />
+      <Button onPress={savePlaceHandler}>Add Place</Button>
     </ScrollView>
   );
 }

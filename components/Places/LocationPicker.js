@@ -1,6 +1,4 @@
 /* 
-
-
   For configuring google maps api
   https://developers.google.com/maps/documentation/maps-static/overview
   https://console.cloud.google.com/google/maps-apis/home?project=fav-spots-maps
@@ -21,8 +19,9 @@ import {
 } from '@react-navigation/native';
 import { getMapPreview } from '../../utils/locations';
 
-const LocationPicker = () => {
+const LocationPicker = ({ onPickLocation }) => {
   const [pickedLocation, setPickedLocation] = useState();
+
   /* Bool, need isFocused for when on the Map screen and making an update 
      and being navigated to the AddPlaces screen which is not recreated in stack, 
      it was pushed on with the initial UI with the new update.
@@ -57,6 +56,7 @@ const LocationPicker = () => {
     return true;
   };
 
+  // Side effect handling the updates to the go back screen navigated to
   useEffect(() => {
     // This WORK-AROUND check makes sure the screen updates the picked location when navigated to
     if (isFocused && route.params) {
@@ -70,6 +70,13 @@ const LocationPicker = () => {
     }
   }, [route, isFocused]);
 
+  // side effect handling the parent getting the updates from the lifted state
+  useEffect(() => {
+    if (pickedLocation) {
+      onPickLocation(pickedLocation);
+    }
+  }, [pickedLocation, onPickLocation]);
+
   const getLocationHandler = async () => {
     const hasPermission = await verifyPermissions();
     if (!hasPermission) {
@@ -81,7 +88,6 @@ const LocationPicker = () => {
       lng: location.coords.longitude
     });
   };
-
   const pickOnMapHandler = () => {
     navigation.navigate('Map');
   };

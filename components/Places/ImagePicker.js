@@ -7,7 +7,7 @@ import {
   useCameraPermissions,
   PermissionStatus
 } from 'expo-image-picker';
-const ImagePicker = () => {
+const ImagePicker = ({ onTakeImage }) => {
   const [pickedImage, setPickedImage] = useState(null);
 
   const [cameraPermissionInformation, requestPermission] =
@@ -43,7 +43,8 @@ const ImagePicker = () => {
     });
 
     if (!image.canceled) {
-      setPickedImage(image.assets[0].uri);
+      setPickedImage(image.assets[0].uri); //needed for this components internal UI
+      onTakeImage(image.assets[0].uri); //passing it back to the parent form component
     }
   };
   let imagePreview = <Text>No Image Taken yet</Text>;

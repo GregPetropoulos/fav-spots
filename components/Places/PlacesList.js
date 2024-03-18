@@ -1,12 +1,12 @@
 import { FlatList, Text, View,StyleSheet } from 'react-native';
 import { Colors } from '../../constants/colors';
 import PlaceItem from './PlaceItem';
-import useNavigation from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 function PlacesList({ places }) {
 
 const navigation = useNavigation()
-const selectPlaceHandler =(id) => {
+const selectPlaceHandler=(id)=> {
   navigation.navigate('PlaceDetails',{placeId:id})
 }
 

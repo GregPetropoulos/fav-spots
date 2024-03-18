@@ -69,7 +69,7 @@ export const fetchPlaces = () => {
         'SELECT * FROM places',
         [],
         (_, result) => {
-        //   console.log(JSON.stringify(result, null, 2))
+          //   console.log(JSON.stringify(result, null, 2))
           const places = [];
           for (dp of result.rows._array) {
             places.push(
@@ -83,9 +83,29 @@ export const fetchPlaces = () => {
                 },
                 dp.id
               )
-            )
+            );
           }
           resolve(places);
+        },
+        (_, error) => {
+          reject(error);
+        }
+      );
+    });
+  });
+  return promise;
+};
+
+export const fetchPlaceDetails = (id) => {
+  
+  const promise = new Promise((resolve, reject) => {
+    database.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM places WHERE id = ?',
+        [id],
+        (_, result) => {
+          // console.log(JSON.stringify(result, null, 2))
+          resolve(result.rows._array[0]);
         },
         (_, error) => {
           reject(error);

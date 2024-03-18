@@ -7,9 +7,14 @@ import { fetchPlaceDetails } from '../utils/database';
 const PlaceDetails = ({ route, navigation }) => {
   const [fetchedPlace, setFetchedPlace] = useState();
 
-  const showOnMapHandler = () => {};
+  const showOnMapHandler = () => {
+    navigation.navigate('Map', {
+      initialLat: fetchedPlace.location.lat,
+      initialLng: fetchedPlace.location.lng
+    });
+  };
   const selectedPlaceId = route.params.placeId;
-  
+
   useEffect(() => {
     const loadPlaceDetails = async () => {
       const place = await fetchPlaceDetails(selectedPlaceId);
@@ -47,10 +52,10 @@ const PlaceDetails = ({ route, navigation }) => {
 
 export default PlaceDetails;
 const styles = StyleSheet.create({
-  fallback:{
-    justifyContent:'center',
-    alignItems:'center',
-    flex:1
+  fallback: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1
   },
   image: { height: '35%', minHeight: 300, width: '100%' },
   locationContainer: {

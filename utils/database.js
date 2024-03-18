@@ -97,7 +97,6 @@ export const fetchPlaces = () => {
 };
 
 export const fetchPlaceDetails = (id) => {
-  
   const promise = new Promise((resolve, reject) => {
     database.transaction((tx) => {
       tx.executeSql(
@@ -105,7 +104,18 @@ export const fetchPlaceDetails = (id) => {
         [id],
         (_, result) => {
           // console.log(JSON.stringify(result, null, 2))
-          resolve(result.rows._array[0]);
+          const dbPlace = result.rows._array[0];
+          const place = new Place(
+            dbPlace.title,
+            dbPlace.imageUri,
+            {
+              lat: dbPlace.lat,
+              lng: dbPlace.lng,
+              address: dbPlace.address
+            },
+            dbPlace.id
+          );
+          resolve(place);
         },
         (_, error) => {
           reject(error);

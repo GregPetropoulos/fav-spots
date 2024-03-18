@@ -5,18 +5,27 @@ import { Colors } from '../constants/colors';
 import IconButton from '../components/UI/IconButton';
 // https://github.com/react-native-maps/react-native-maps
 // This component has the screen prop navigation since it's registered as screen
-const Map = ({ navigation }) => {
-  const [selectedLocation, setSelectedLocation] = useState();
+const Map = ({ navigation, route }) => {
+  const initialLocation = route.params && {
+    lat: route.params.initialLat,
+    lng: route.params.initialLng
+  };
+  const [selectedLocation, setSelectedLocation] = useState(initialLocation);
+
   const region = {
-    latitude: 37.78,
-    longitude: -122.43,
+    latitude: initialLocation ? initialLocation.lat : 37.78,
+    longitude: initialLocation ? initialLocation.lng : -122.43,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421
   };
 
-  //   Set the marker to a location on the map
+  //   Set the marker to a location on the map in the LocationPicker
 
   const selectLocationHandler = (event) => {
+    // This makes read only when the Map component is rendered for a marked location in place details
+    if (initialLocation) {
+      return;
+    }
     // Event sent from the MapView package
     const lat = event.nativeEvent.coordinate.latitude;
     const lng = event.nativeEvent.coordinate.longitude;
@@ -47,6 +56,10 @@ const Map = ({ navigation }) => {
 */
 
   useLayoutEffect(() => {
+    // Need this to handle showing a save icon only on when marking a location and not when viewing the place details
+    if (initialLocation) {
+      return;
+    }
     navigation.setOptions({
       headerRight: ({ tintColor }) => (
         <IconButton
@@ -57,7 +70,7 @@ const Map = ({ navigation }) => {
         />
       )
     });
-  }, [navigation, savePickedLocationHandler]);
+  }, [navigation, savePickedLocationHandler, initialLocation]);
 
   return (
     <MapView
